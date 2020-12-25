@@ -63,14 +63,6 @@ function __git.init
   __git.create_abbr gl         git pull
   __git.create_abbr gll        git pull origin
   __git.create_abbr glr        git pull --rebase
-  __git.create_abbr glg        git log --stat --max-count=10
-  __git.create_abbr glgg       git log --graph --max-count=10
-  __git.create_abbr glgga      git log --graph --decorate --all
-  __git.create_abbr glo        git log --oneline --decorate --color
-  __git.create_abbr glog       git log --oneline --decorate --color --graph
-  __git.create_abbr glom       git log --oneline --decorate --color master..
-  __git.create_abbr glod       git log --oneline --decorate --color develop..
-  __git.create_abbr gloo       "git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short"
   __git.create_abbr gm         git merge
   __git.create_abbr gmt        git mergetool --no-prompt
   __git.create_abbr gp         git push
@@ -152,6 +144,21 @@ function __git.init
   __git.create_abbr gfst       git flow support track
 
   __git.create_abbr gfp        git flow publish
+
+  # git log abbreviations
+  __git.create_abbr glg        git log --stat
+  __git.create_abbr glgp       git log --stat -p
+  __git.create_abbr glgg       git log --graph
+  __git.create_abbr glgga      git log --graph --decorate --all
+  __git.create_abbr glgm       git log --graph --max-count=10
+  __git.create_abbr glo        git log --oneline --decorate
+  __git.create_abbr glol       "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
+  __git.create_abbr glols      "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --stat"
+  __git.create_abbr glod       "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'"
+  __git.create_abbr glods      "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --date=short"
+  __git.create_abbr glola      "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all"
+  __git.create_abbr glog       git log --oneline --decorate --graph
+  __git.create_abbr gloga      git log --oneline --decorate --graph --all
 
   # Cleanup declared functions
   functions -e __git.create_abbr
