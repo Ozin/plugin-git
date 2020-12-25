@@ -71,7 +71,7 @@ $ fisher install jhillyerd/plugin-git
 | gcv          | `git commit -v --no-verify`                          |
 | gcav         | `git commit -a -v --no-verify`                       |
 | gcav!        | `git commit -a -v --no-verify --amend`               |
-| gcm          | `git commit -m`                                      |
+| gcmsg        | `git commit -m`                                      |
 | gcam         | `git commit -a -m`                                   |
 | gscam        | `git commit -S -a -m`                                |
 | gcfx         | `git commit --fixup`                                 |
