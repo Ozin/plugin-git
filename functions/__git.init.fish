@@ -31,6 +31,7 @@ function __git.init
   __git.create_abbr gba        git branch -a
   __git.create_abbr gban       git branch -a --no-merged
   __git.create_abbr gbd        git branch -d
+  __git.create_abbr gbda       "git branch --no-color --merged | command grep -vE '^(\+|\*|\s*('(__git.main_branch)'|development|develop|devel|dev)\s*\$)' | command xargs -n 1 git branch -d"
   __git.create_abbr gbD        git branch -D
   __git.create_abbr gbl        git blame -b -w
   __git.create_abbr gbs        git bisect
