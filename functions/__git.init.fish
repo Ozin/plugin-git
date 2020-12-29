@@ -6,17 +6,6 @@ function __git.init
     set -a __git_plugin_abbreviations $name
   end
 
-  function __git.main_branch -d "Output git's main branch name"
-    command git rev-parse --git-dir &>/dev/null || return
-    for branch in main trunk;
-      if command git show-ref -q --verify refs/heads/$branch;
-        echo $branch
-        return
-      end
-    end
-    echo master
-  end
-
   set -q __git_plugin_initialized; and exit 0
 
   set -U __git_plugin_abbreviations
