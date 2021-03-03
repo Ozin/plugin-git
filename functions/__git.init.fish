@@ -73,6 +73,8 @@ function __git.init
   __git.create_abbr gpo!       git push --force-with-lease origin
   __git.create_abbr gpv        git push --no-verify
   __git.create_abbr gpv!       git push --no-verify --force-with-lease
+  __git.create_abbr ggsup      "git branch --set-upstream-to=origin/(__git.current_branch)"
+  __git.create_abbr gpsup      "git push --set-upstream origin (__git.current_branch)"
   __git.create_abbr ggp!       ggp --force-with-lease
   __git.create_abbr gpu        ggp --set-upstream
   __git.create_abbr gr         git remote -vv
