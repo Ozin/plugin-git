@@ -59,8 +59,8 @@ function __git.init
   __git.create_abbr gdwc       git diff --word-diff --cached
   __git.create_abbr gignore    git update-index --assume-unchanged
   __git.create_abbr gf         git fetch
-  __git.create_abbr gfa        git fetch --all --prune
-  __git.create_abbr gfm        "git fetch origin master --prune; and git merge FETCH_HEAD"
+  __git.create_abbr gfa        git fetch --all
+  __git.create_abbr gfm        "git fetch origin master; and git merge FETCH_HEAD"
   __git.create_abbr gfo        git fetch origin
   __git.create_abbr gl         git pull
   __git.create_abbr gll        git pull origin
