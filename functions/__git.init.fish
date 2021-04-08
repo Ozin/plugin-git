@@ -116,7 +116,7 @@ function __git.init
   __git.create_abbr gsur       git submodule update --recursive
   __git.create_abbr gsuri      git submodule update --recursive --init
   __git.create_abbr gts        git tag -s
-  __git.create_abbr gtv        git tag | sort -V
+  __git.create_abbr gtv        git tag --sort v:refname
   __git.create_abbr gsw        git switch
   __git.create_abbr gswc       git switch --create
   __git.create_abbr gunignore  git update-index --no-assume-unchanged
