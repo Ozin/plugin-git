@@ -23,6 +23,15 @@ fisher:
 $ fisher install jhillyerd/plugin-git
 ```
 
+## Default branch name
+
+`plugin-git` respects `init.defaultBranch` setting that was [introduced in git 2.28](https://github.blog/2020-07-27-highlights-from-git-2-28/#introducing-init-defaultbranch).
+The order for resolving the default branch name is as follows:
+
+1. `init.defaultBranch` if it is set and the branch exists
+2. `main` if it exists
+3. `master` as fallback
+
 ## Usage
 
 ### Bisect
@@ -55,7 +64,7 @@ $ fisher install jhillyerd/plugin-git
 | ------------ | ---------------------------------------------------- |
 | gco          | `git checkout`                                       |
 | gcod         | `git checkout develop`                               |
-| gcom         | `git checkout master`                                |
+| gcom         | `git checkout (__git.default_branch)`                |
 | gcb          | `git checkout -b`                                    |
 
 ### Commit
@@ -87,6 +96,7 @@ $ fisher install jhillyerd/plugin-git
 | gdt          | list changed files                                   |
 | gdw          | `git diff --word-diff`                               |
 | gdwc         | `git diff --word-diff --cached`                      |
+| gdto         | `git difftool`                                       |
 | gdv          | pipe `git diff` to `view` command                    |
 
 ### Flow
@@ -115,13 +125,13 @@ $ fisher install jhillyerd/plugin-git
 | Abbreviation | Command                                              |
 | ------------ | ---------------------------------------------------- |
 | gcount       | `git shortlog -sn`                                   |
-| glg          | `git log --stat --max-count=10`                      |
-| glgg         | `git log --graph --max-count=10`                     |
+| glg          | `git log --stat`                                     |
+| glgg         | `git log --graph`                                    |
 | glgga        | `git log --graph --decorate --all`                   |
 | glo          | `git log --oneline --decorate --color`               |
 | gloo         | `git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short` |
 | glog         | `git log --oneline --decorate --color --graph`       |
-| glom         | `git log --oneline --decorate --color master..`      |
+| glom         | `git log --oneline --decorate --color (__git.default_branch)..` |
 | glod         | `git log --oneline --decorate --color develop..`     |
 | glp          | `git log` at requested pretty level                  |
 | gwch         | `git whatchanged -p --abbrev-commit --pretty=medium` |
@@ -133,6 +143,9 @@ $ fisher install jhillyerd/plugin-git
 | gl           | `git pull`                                           |
 | ggl          | pull origin _current-branch_                         |
 | gup          | `git pull --rebase`                                  |
+| gupv         | `git pull --rebase -v`                               |
+| gupa         | `git pull --rebase --autostash`                      |
+| gupav        | `git pull --rebase --autostash -v`                   |
 | glr          | `git pull --rebase`                                  |
 | gp           | `git push`                                           |
 | gp!          | `git push --force-with-lease`                        |
@@ -154,11 +167,11 @@ $ fisher install jhillyerd/plugin-git
 | grba         | `git rebase --abort`                                 |
 | grbc         | `git rebase --continue`                              |
 | grbi         | `git rebase --interactive`                           |
-| grbm         | `git rebase master`                                  |
-| grbmi        | `git rebase master --interactive`                    |
-| grbmia       | `git rebase master --interactive --autosquash`       |
+| grbm         | `git rebase (__git.default_branch)`                            |
+| grbmi        | `git rebase (__git.default_branch) --interactive`              |
+| grbmia       | `git rebase (__git.default_branch) --interactive --autosquash` |
 | grbd         | `git rebase develop`                                 |
-| grbdd        | `git rebase develop --interactive`                   |
+| grbdi        | `git rebase develop --interactive`                   |
 | grbdia       | `git rebase develop --interactive --autosquash`      |
 | grbs         | `git rebase --skip`                                  |
 | ggu          | fetch & rebase _current-branch_ on top of the upstream branch |
@@ -181,6 +194,7 @@ $ fisher install jhillyerd/plugin-git
 | ------------ | ---------------------------------------------------- |
 | gsta         | `git stash`                                          |
 | gstd         | `git stash drop`                                     |
+| gstl         | `git stash list`                                     |
 | gstp         | `git stash pop`                                      |
 | gsts         | `git stash show --text`                              |
 | gwip         | commit a work-in-progress branch                     |
@@ -191,7 +205,7 @@ $ fisher install jhillyerd/plugin-git
 | Abbreviation | Command                                              |
 | ------------ | ---------------------------------------------------- |
 | gts          | `git tag -s`                                         |
-| gtv          | `git tag | sort -V`                                  |
+| gtv          | `git tag \| sort -V`                                 |
 | gtl          | list tags matching prefix                            |
 
 
@@ -201,11 +215,13 @@ $ fisher install jhillyerd/plugin-git
 | ------------ | ---------------------------------------------------- |
 | ga           | `git add`                                            |
 | gaa          | `git add --all`                                      |
+| gau          | `git add --update`                                   |
 | gapa         | `git add --patch`                                    |
 | grm          | `git rm`                                             |
 | grmc         | `git rm --cached`                                    |
 | grs          | `git restore`                                        |
 | grss         | `git restore --source`                               |
+| grst         | `git restore --staged`                               |
 
 
 ### Everything Else
@@ -227,13 +243,15 @@ $ fisher install jhillyerd/plugin-git
 | gignored     | list temporarily ignored files                              |
 | gf           | `git fetch`                                                 |
 | gfa          | `git fetch --all --prune`                                   |
-| gfm          | `git fetch origin master --prune; and git merge FETCH_HEAD` |
+| gfm          | `git fetch origin (__git.default_branch) --prune; and git merge FETCH_HEAD` |
 | gfo          | `git fetch origin`                                          |
 | gm           | `git merge`                                                 |
 | gmt          | `git mergetool --no-prompt`                                 |
+| gmom         | `git merge origin/(__git.default_branch)`                   |
 | grev         | `git revert`                                                |
 | grh          | `git reset HEAD`                                            |
 | grhh         | `git reset HEAD --hard`                                     |
+| grhpa        | `git reset --patch`                                         |
 | grt          | cd into the top of the current repository or submodule      |
 | gsh          | `git show`                                                  |
 | gsd          | `git svn dcommit`                                           |

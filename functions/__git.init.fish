@@ -6,7 +6,7 @@ function __git.init
     set -a __git_plugin_abbreviations $name
   end
 
-  set -q __git_plugin_initialized; and exit 0
+  set -q __git_plugin_initialized; and return 0
 
   set -U __git_plugin_abbreviations
 
@@ -14,11 +14,12 @@ function __git.init
   __git.create_abbr g          git
   __git.create_abbr ga         git add
   __git.create_abbr gaa        git add --all
+  __git.create_abbr gau        git add --update
   __git.create_abbr gapa       git add --patch
   __git.create_abbr gap        git apply
-  __git.create_abbr gb         git branch
-  __git.create_abbr gba        git branch -a
-  __git.create_abbr gban       git branch -a --no-merged
+  __git.create_abbr gb         git branch -vv
+  __git.create_abbr gba        git branch -a -v
+  __git.create_abbr gban       git branch -a -v --no-merged
   __git.create_abbr gbd        git branch -d
   __git.create_abbr gbda       "git branch --no-color --merged | command grep -vE '^(\+|\*|\s*('(__git.main_branch)'|development|develop|devel|dev)\s*\$)' | command xargs -n 1 git branch -d"
   __git.create_abbr gbr        git branch --remote
@@ -43,7 +44,7 @@ function __git.init
   __git.create_abbr gscam      git commit -S -a -m
   __git.create_abbr gcfx       git commit --fixup
   __git.create_abbr gcf        git config --list
-  __git.create_abbr gcl        git clone --recurse-submodules
+  __git.create_abbr gcl        git clone
   __git.create_abbr gclean     git clean -di
   __git.create_abbr gclean!    git clean -dfx
   __git.create_abbr gclean!!   "git reset --hard; and git clean -dfx"
@@ -57,16 +58,18 @@ function __git.init
   __git.create_abbr gdsc       git diff --stat --cached
   __git.create_abbr gdw        git diff --word-diff
   __git.create_abbr gdwc       git diff --word-diff --cached
+  __git.create_abbr gdto       git difftool
   __git.create_abbr gignore    git update-index --assume-unchanged
   __git.create_abbr gf         git fetch
-  __git.create_abbr gfa        git fetch --all
-  __git.create_abbr gfm        "git fetch origin master; and git merge FETCH_HEAD"
+  __git.create_abbr gfa        git fetch --all --prune
+  __git.create_abbr gfm        "git fetch origin (__git.default_branch) --prune; and git merge FETCH_HEAD"
   __git.create_abbr gfo        git fetch origin
   __git.create_abbr gl         git pull
   __git.create_abbr gll        git pull origin
   __git.create_abbr glr        git pull --rebase
   __git.create_abbr gm         git merge
   __git.create_abbr gmt        git mergetool --no-prompt
+  __git.create_abbr gmom       git merge origin/\(__git.default_branch\)
   __git.create_abbr gp         git push
   __git.create_abbr gp!        git push --force-with-lease
   __git.create_abbr gpo        git push origin
@@ -83,16 +86,17 @@ function __git.init
   __git.create_abbr grba       git rebase --abort
   __git.create_abbr grbc       git rebase --continue
   __git.create_abbr grbi       git rebase --interactive
-  __git.create_abbr grbm       git rebase master
-  __git.create_abbr grbmi      git rebase master --interactive
-  __git.create_abbr grbmia     git rebase master --interactive --autosquash
+  __git.create_abbr grbm       git rebase \(__git.default_branch\)
+  __git.create_abbr grbmi      git rebase \(__git.default_branch\) --interactive
+  __git.create_abbr grbmia     git rebase \(__git.default_branch\) --interactive --autosquash
   __git.create_abbr grbd       git rebase develop
-  __git.create_abbr grbdi      git rebase master --interactive
-  __git.create_abbr grbdia     git rebase master --interactive --autosquash
+  __git.create_abbr grbdi      git rebase develop --interactive
+  __git.create_abbr grbdia     git rebase develop --interactive --autosquash
   __git.create_abbr grbs       git rebase --skip
   __git.create_abbr grev       git revert
   __git.create_abbr grh        git reset
   __git.create_abbr grhh       git reset --hard
+  __git.create_abbr grhpa      git reset --patch
   __git.create_abbr grm        git rm
   __git.create_abbr grmc       git rm --cached
   __git.create_abbr grmv       git remote rename
@@ -100,6 +104,7 @@ function __git.init
   __git.create_abbr grs        git restore
   __git.create_abbr grset      git remote set-url
   __git.create_abbr grss       git restore --source
+  __git.create_abbr grst       git restore --staged
   __git.create_abbr grt        cd (git rev-parse --show-toplevel; or echo ".")
   __git.create_abbr grup       git remote update
   __git.create_abbr grv        git remote -v
@@ -110,24 +115,28 @@ function __git.init
   __git.create_abbr gst        git status
   __git.create_abbr gsta       git stash
   __git.create_abbr gstd       git stash drop
+  __git.create_abbr gstl       git stash list
   __git.create_abbr gstp       git stash pop
   __git.create_abbr gsts       git stash show --text
   __git.create_abbr gsu        git submodule update
   __git.create_abbr gsur       git submodule update --recursive
   __git.create_abbr gsuri      git submodule update --recursive --init
   __git.create_abbr gts        git tag -s
-  __git.create_abbr gtv        git tag --sort v:refname
+  __git.create_abbr gtv        git tag | sort -V
   __git.create_abbr gsw        git switch
   __git.create_abbr gswc       git switch --create
   __git.create_abbr gunignore  git update-index --no-assume-unchanged
   __git.create_abbr gup        git pull --rebase
+  __git.create_abbr gupv       git pull --rebase -v
+  __git.create_abbr gupa       git pull --rebase --autostash
+  __git.create_abbr gupav      git pull --rebase --autostash -v
   __git.create_abbr gwch       git whatchanged -p --abbrev-commit --pretty=medium
 
   # git checkout abbreviations
   __git.create_abbr gco        git checkout
   __git.create_abbr gcb        git checkout -b
-  __git.create_abbr gcd        git checkout develop
-  __git.create_abbr gcm        "git checkout (__git.main_branch)"
+  __git.create_abbr gcod       git checkout develop
+  __git.create_abbr gcom       git checkout \(__git.default_branch\)
 
   # git flow abbreviations
   __git.create_abbr gfb        git flow bugfix
@@ -164,6 +173,7 @@ function __git.init
   __git.create_abbr glola      "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all"
   __git.create_abbr glog       git log --oneline --decorate --graph
   __git.create_abbr gloga      git log --oneline --decorate --graph --all
+  __git.create_abbr gloo       "git log --pretty=format:'%C(yellow)%h %Cred%ad %Cblue%an%Cgreen%d %Creset%s' --date=short"
 
   # Cleanup declared functions
   functions -e __git.create_abbr
