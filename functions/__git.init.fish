@@ -21,7 +21,7 @@ function __git.init
   __git.create_abbr gba        git branch -a -v
   __git.create_abbr gban       git branch -a -v --no-merged
   __git.create_abbr gbd        git branch -d
-  __git.create_abbr gbda       "git branch --no-color --merged | command grep -vE '^(\+|\*|\s*('(__git.main_branch)'|development|develop|devel|dev)\s*\$)' | command xargs -n 1 git branch -d"
+  __git.create_abbr gbda       "git branch --no-color --merged | command grep -vE '^(\+|\*|\s*('(__git.default_branch)'|development|develop|devel|dev)\s*\$)' | command xargs -n 1 git branch -d"
   __git.create_abbr gbr        git branch --remote
   __git.create_abbr gbD        git branch -D
   __git.create_abbr gbl        git blame -b -w
@@ -76,8 +76,8 @@ function __git.init
   __git.create_abbr gpo!       git push --force-with-lease origin
   __git.create_abbr gpv        git push --no-verify
   __git.create_abbr gpv!       git push --no-verify --force-with-lease
-  __git.create_abbr ggsup      "git branch --set-upstream-to=origin/(__git.current_branch)"
-  __git.create_abbr gpsup      "git push --set-upstream origin (__git.current_branch)"
+  __git.create_abbr ggsup      git branch --set-upstream-to=origin/\(__git.current_branch\)
+  __git.create_abbr gpsup      git push --set-upstream origin \(__git.current_branch\)
   __git.create_abbr ggp!       ggp --force-with-lease
   __git.create_abbr gpu        ggp --set-upstream
   __git.create_abbr gr         git remote -vv
