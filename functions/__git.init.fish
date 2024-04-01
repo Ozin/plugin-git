@@ -195,6 +195,11 @@ function __git.init
   __git.create_abbr gmr        git push origin \(__git.current_branch\) --set-upstream -o merge_request.create
   __git.create_abbr gmwps      git push origin \(__git.current_branch\) --set-upstream -o merge_request.create -o merge_request.merge_when_pipeline_succeeds
 
+  ## Custom abbrs
+  __git.create_abbr glol       "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'"
+  __git.create_abbr glola      "git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --all"
+
+
   # Cleanup declared functions
   functions -e __git.create_abbr
 end
